@@ -1,0 +1,14 @@
+# Configuration locale
+config/config.php
+
+# CV des candidats
+uploads/cv/*
+!uploads/cv/.gitkeep
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
