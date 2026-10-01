@@ -138,3 +138,14 @@
 - Résultat : 5 entreprises récupérées correctement.
 - Vérification des identifiants, noms et adresses e-mail des entreprises.
 - Le fichier temporaire utilisé pour le test a ensuite été supprimé.
+
+## 01/10/2026 — Création de la page de liste des entreprises
+
+- Création de la page `admin-joblink/entreprises/index.php`.
+- Protection de la page par vérification de la session administrateur.
+- Chargement des classes `Database` et `Entreprise`.
+- Utilisation de `Entreprise::findAll()` pour récupérer les entreprises.
+- Affichage des entreprises dans un tableau avec leurs principales informations.
+- Utilisation de `htmlspecialchars()` pour sécuriser l'affichage des données textuelles.
+- Test fonctionnel réalisé dans le navigateur avec les 5 entreprises de test.
+- Résultat : la liste des entreprises s'affiche correctement dans l'espace d'administration.
