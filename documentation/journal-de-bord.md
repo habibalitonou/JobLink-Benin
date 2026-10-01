@@ -88,3 +88,14 @@
 - Résultat du test : ville « Cotonou » récupérée correctement.
 - Suppression du fichier temporaire utilisé pour le test.
 
+## 01/10/2026 — Classe TypeContrat et accès aux données
+
+- Création de la classe `TypeContrat` dans `classes/TypeContrat.php`.
+- Définition des propriétés privées correspondant aux informations d'un type de contrat.
+- Mise en place du constructeur pour initialiser le libellé du type de contrat.
+- Ajout des getters et setters pour les propriétés de la classe.
+- Ajout de la méthode `findById()` utilisant PDO et une requête préparée.
+- Test de récupération du type de contrat ID 1 depuis la base de données.
+- Résultat du test : type de contrat « CDI » récupéré correctement.
+- Suppression du fichier temporaire utilisé pour le test.
+
