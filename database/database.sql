@@ -81,3 +81,80 @@ ALTER TABLE
     `candidature` ADD CONSTRAINT `candidature_id_offre_foreign` FOREIGN KEY(`id_offre`) REFERENCES `offre`(`id`);
 ALTER TABLE
     `offre` ADD CONSTRAINT `offre_id_ville_foreign` FOREIGN KEY(`id_ville`) REFERENCES `ville`(`id`);
+-- ============================================================
+-- DONNEES DE TEST : REFERENTIELS
+-- ============================================================
+
+INSERT INTO secteur (id, nom) VALUES
+(1, 'Informatique'),
+(2, 'Commerce'),
+(3, 'Finance'),
+(4, 'Bâtiment'),
+(5, 'Santé'),
+(6, 'Éducation'),
+(7, 'Transport'),
+(8, 'Hôtellerie');
+
+INSERT INTO ville (id, nom) VALUES
+(1, 'Cotonou'),
+(2, 'Abomey-Calavi'),
+(3, 'Porto-Novo'),
+(4, 'Parakou'),
+(5, 'Abomey'),
+(6, 'Bohicon'),
+(7, 'Ouidah'),
+(8, 'Natitingou');
+
+INSERT INTO type_contrat (id, nom) VALUES
+(1, 'CDI'),
+(2, 'CDD'),
+(3, 'Stage'),
+(4, 'Alternance'),
+(5, 'Freelance');
+
+-- ============================================================
+-- DONNEES DE TEST : ENTREPRISES
+-- ============================================================
+
+INSERT INTO entreprise (nom, email, telephone, id_secteur, id_ville) VALUES
+('TechnoBénin', 'contact@technobenin.test', '+229 21 30 40 50', 1, 1),
+('Bénin Commerce', 'contact@benincommerce.test', '+229 21 31 41 51', 2, 2),
+('Finance Plus Bénin', 'contact@financeplus.test', '+229 21 32 42 52', 3, 3),
+('Bâtir Bénin', 'contact@batirbenin.test', '+229 21 33 43 53', 4, 4),
+('Santé Bénin', 'contact@santebenin.test', '+229 21 34 44 54', 5, 1);
+
+-- ============================================================
+-- DONNEES DE TEST : OFFRES
+-- ============================================================
+
+INSERT INTO offre (titre, description, salaire, date_publication, date_expiration, statut, id_entreprise, id_secteur, id_ville, id_type_contrat) VALUES
+('Développeur Web PHP', 'Développement et maintenance d applications web en PHP.', 450000, NOW(), '2026-12-31', 'publiee', 1, 1, 1, 1),
+('Technicien Support Informatique', 'Assistance technique aux utilisateurs et maintenance du parc informatique.', 300000, NOW(), '2026-11-30', 'publiee', 1, 1, 2, 1),
+('Commercial Terrain', 'Développement du portefeuille clients et prospection commerciale.', 250000, NOW(), '2026-12-15', 'publiee', 2, 2, 2, 2),
+('Assistant Commercial', 'Appui administratif et commercial auprès de l équipe de vente.', 220000, NOW(), '2026-11-30', 'publiee', 2, 2, 1, 3),
+('Analyste Financier', 'Analyse financière et préparation des rapports de gestion.', 500000, NOW(), '2026-12-20', 'publiee', 3, 3, 3, 1),
+('Comptable Junior', 'Saisie comptable, suivi des opérations et préparation des documents financiers.', 280000, NOW(), '2026-11-15', 'publiee', 3, 3, 3, 2),
+('Chef de Chantier', 'Supervision des équipes et suivi opérationnel des travaux.', 450000, NOW(), '2026-12-10', 'publiee', 4, 4, 4, 1),
+('Conducteur de Travaux', 'Coordination et suivi technique des projets de construction.', 550000, NOW(), '2026-12-25', 'publiee', 4, 4, 4, 1),
+('Infirmier Diplômé', 'Prise en charge des patients et participation aux activités de soins.', 300000, NOW(), '2026-11-30', 'publiee', 5, 5, 1, 1),
+('Assistant Administratif Santé', 'Gestion administrative et accueil des patients.', 230000, NOW(), '2026-12-05', 'publiee', 5, 5, 1, 3);
+
+-- ============================================================
+-- DONNEES DE TEST : CANDIDATS
+-- Mot de passe de test : Password123
+-- ============================================================
+
+INSERT INTO candidat (nom, prenom, email, mot_de_passe, telephone, id_ville, statut) VALUES
+('Ahouandjinou', 'Marc', 'marc.ahouandjinou@test.local', '$2y$10$jvBJQm6hNOcaP4F7EkPc1OvyykWK6yeReMvcoG2TGLEiO68e8sysu', '+229 90 10 20 01', 1, 'actif'),
+('Adjovi', 'Sarah', 'sarah.adjovi@test.local', '$2y$10$jvBJQm6hNOcaP4F7EkPc1OvyykWK6yeReMvcoG2TGLEiO68e8sysu', '+229 90 10 20 02', 2, 'actif'),
+('Dossou', 'Kevin', 'kevin.dossou@test.local', '$2y$10$jvBJQm6hNOcaP4F7EkPc1OvyykWK6yeReMvcoG2TGLEiO68e8sysu', '+229 90 10 20 03', 3, 'actif'),
+('Houngbédji', 'Julie', 'julie.houngbedji@test.local', '$2y$10$jvBJQm6hNOcaP4F7EkPc1OvyykWK6yeReMvcoG2TGLEiO68e8sysu', '+229 90 10 20 04', 4, 'actif'),
+('Soglo', 'David', 'david.soglo@test.local', '$2y$10$jvBJQm6hNOcaP4F7EkPc1OvyykWK6yeReMvcoG2TGLEiO68e8sysu', '+229 90 10 20 05', 1, 'actif');
+
+-- ============================================================
+-- DONNEES DE TEST : ADMINISTRATEUR
+-- Mot de passe de test : Password123
+-- ============================================================
+
+INSERT INTO administrateur (nom, prenom, email, mot_de_passe) VALUES
+('Alitonou', 'Habib', 'admin@joblink-benin.test', '$2y$10$T.UsTTEt7jLNqWkmgyzN2O9nm8GFNFGOgs4D52DGUcc4QM7C/SYI6');
