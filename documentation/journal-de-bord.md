@@ -65,3 +65,15 @@
 - Suppression du fichier temporaire utilisé pour le test.
 - Suppression de la candidature temporaire après validation du test.
 \n
+
+## 01/10/2026 — Classe Secteur et accès aux données
+
+- Création de la classe `Secteur` dans `classes/Secteur.php`.
+- Définition des propriétés privées correspondant aux informations d'un secteur.
+- Mise en place du constructeur pour initialiser le libellé du secteur.
+- Ajout des getters et setters pour les propriétés de la classe.
+- Ajout de la méthode `findById()` utilisant PDO et une requête préparée.
+- Test de récupération du secteur ID 1 depuis la base de données.
+- Résultat du test : secteur « Informatique » récupéré correctement.
+- Suppression du fichier temporaire utilisé pour le test.
+
