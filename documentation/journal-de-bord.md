@@ -53,3 +53,15 @@
 - Résultat du test : offre « Développeur Web PHP » récupérée correctement, avec un salaire de 450000 et l'ID entreprise 1.
 - Suppression du fichier temporaire utilisé pour le test.
 
+## 01/10/2026 — Classe Candidature et accès aux données
+
+- Création de la classe `Candidature` dans `classes/Candidature.php`.
+- Définition des propriétés privées correspondant aux informations d'une candidature.
+- Mise en place du constructeur pour initialiser les données de la candidature.
+- Ajout des getters et setters pour les propriétés de la classe.
+- Ajout de la méthode `findById()` utilisant PDO et une requête préparée.
+- Test de récupération d'une candidature temporaire depuis la base de données.
+- Résultat du test : candidature correctement retrouvée avec son identifiant, l'identifiant du candidat, l'identifiant de l'offre et son statut.
+- Suppression du fichier temporaire utilisé pour le test.
+- Suppression de la candidature temporaire après validation du test.
+\n
