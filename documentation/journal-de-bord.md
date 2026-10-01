@@ -99,3 +99,18 @@
 - Résultat du test : type de contrat « CDI » récupéré correctement.
 - Suppression du fichier temporaire utilisé pour le test.
 
+
+## 01/10/2026 — Classe Candidat et accès aux données
+
+- Création de la classe `Candidat` dans `classes/Candidat.php`.
+- Ajout des attributs privés correspondant à la table `candidat`.
+- Ajout du constructeur ainsi que des getters et setters.
+- Ajout de la méthode `findById()` pour récupérer un candidat depuis la base de données.
+- Utilisation de PDO et d'une requête préparée avec un paramètre nommé.
+- Prise en compte des champs nullable `id_ville` et `cv_fichier`.
+- Prise en compte de `date_inscription`, générée automatiquement par MySQL.
+- Vérification syntaxique avec `php -l classes/Candidat.php`.
+- Test fonctionnel avec le candidat de test ID 1.
+- Résultat : le candidat Ahouandjinou Marc a été correctement récupéré depuis la base de données.
+- Suppression du fichier temporaire `test-candidat.php` après le test.
+
