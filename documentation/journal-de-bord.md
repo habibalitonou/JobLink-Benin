@@ -41,3 +41,15 @@
 - Résultat du test : entreprise correctement retrouvée avec ses informations et ses identifiants de secteur et de ville.
 - Suppression du fichier temporaire utilisé pour le test.
 
+
+## 01/10/2026 — Classe Offre et accès aux données
+
+- Création de la classe `Offre` dans `classes/Offre.php`.
+- Définition des propriétés privées correspondant aux informations d'une offre d'emploi.
+- Mise en place du constructeur pour initialiser les données de l'offre.
+- Ajout des getters et setters pour les propriétés de la classe.
+- Ajout de la méthode `findById()` utilisant PDO et une requête préparée.
+- Test de récupération de l'offre ID 1 depuis la base de données.
+- Résultat du test : offre « Développeur Web PHP » récupérée correctement, avec un salaire de 450000 et l'ID entreprise 1.
+- Suppression du fichier temporaire utilisé pour le test.
+
