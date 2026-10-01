@@ -114,3 +114,15 @@
 - Résultat : le candidat Ahouandjinou Marc a été correctement récupéré depuis la base de données.
 - Suppression du fichier temporaire `test-candidat.php` après le test.
 
+
+## 01/10/2026 — Déconnexion et destruction de la session administrateur
+
+- Création du fichier `admin-joblink/logout.php`.
+- Suppression des données présentes dans la session administrateur.
+- Suppression du cookie de session lorsqu'il est utilisé.
+- Destruction de la session avec `session_destroy()`.
+- Redirection vers la page de connexion après la déconnexion.
+- Vérification syntaxique avec `php -l admin-joblink/logout.php`.
+- Test fonctionnel dans le navigateur : après déconnexion, l'accès direct à `index.php` redirige vers `login.php`.
+- Résultat : la déconnexion et la protection de la session administrateur fonctionnent correctement.
+
