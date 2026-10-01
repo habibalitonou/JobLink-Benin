@@ -29,3 +29,15 @@
 - Résultat du test : administrateur correctement retrouvé avec son identifiant, son nom, son prénom et son adresse e-mail.
 - Suppression du fichier temporaire utilisé pour le test.
 
+
+## 01/10/2026 — Classe Entreprise et accès aux données
+
+- Création de la classe `classes/Entreprise.php`.
+- Ajout des propriétés privées et du constructeur.
+- Ajout des getters et setters pour l'identifiant, le nom, l'e-mail, le téléphone, le secteur et la ville.
+- Ajout de la méthode `findById()` utilisant la connexion PDO fournie par la classe `Database`.
+- Utilisation d'une requête préparée pour rechercher une entreprise par son identifiant.
+- Test fonctionnel réalisé avec l'entreprise de test `TechnoBénin`.
+- Résultat du test : entreprise correctement retrouvée avec ses informations et ses identifiants de secteur et de ville.
+- Suppression du fichier temporaire utilisé pour le test.
+
