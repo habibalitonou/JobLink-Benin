@@ -83,6 +83,36 @@ class Entreprise
         $this->idVille = $idVille;
     }
 
+    public static function findAll(Database $database): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, nom, email, telephone, id_secteur, id_ville
+                FROM entreprise
+                ORDER BY nom ASC';
+
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+
+        $entreprises = [];
+
+        while ($data = $statement->fetch()) {
+            $entreprise = new self(
+                $data['nom'],
+                $data['email'],
+                $data['telephone'],
+                (int) $data['id_secteur'],
+                (int) $data['id_ville']
+            );
+
+            $entreprise->setId((int) $data['id']);
+
+            $entreprises[] = $entreprise;
+        }
+
+        return $entreprises;
+    }
+
     public static function findById(Database $database, int $id): ?self
     {
         $pdo = $database->getConnection();

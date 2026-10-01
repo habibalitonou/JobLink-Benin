@@ -126,3 +126,15 @@
 - Test fonctionnel dans le navigateur : après déconnexion, l'accès direct à `index.php` redirige vers `login.php`.
 - Résultat : la déconnexion et la protection de la session administrateur fonctionnent correctement.
 
+
+## 01/10/2026 — Ajout de la méthode findAll() dans la classe Entreprise
+
+- Ajout de la méthode statique `findAll()` dans `classes/Entreprise.php`.
+- La méthode utilise la connexion PDO fournie par la classe `Database`.
+- Utilisation d'une requête préparée pour récupérer les entreprises.
+- Les entreprises sont triées par nom avec `ORDER BY nom ASC`.
+- Chaque résultat de la base est transformé en objet `Entreprise`.
+- Test fonctionnel réalisé avec les données de test de la base JobLink.
+- Résultat : 5 entreprises récupérées correctement.
+- Vérification des identifiants, noms et adresses e-mail des entreprises.
+- Le fichier temporaire utilisé pour le test a ensuite été supprimé.
