@@ -135,6 +135,70 @@ class Candidat
         $this->dateInscription = $dateInscription;
     }
 
+    public static function findAll(Database $database): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, nom, prenom, email, mot_de_passe, telephone,
+                       id_ville, cv_fichier, statut, date_inscription
+                FROM candidat
+                ORDER BY nom ASC, prenom ASC';
+
+        $statement = $pdo->query($sql);
+        $candidats = [];
+
+        while ($data = $statement->fetch()) {
+            $candidat = new self(
+                $data['nom'],
+                $data['prenom'],
+                $data['email'],
+                $data['mot_de_passe'],
+                $data['telephone'],
+                $data['id_ville'] !== null ? (int) $data['id_ville'] : null,
+                $data['cv_fichier'],
+                $data['statut'],
+                $data['date_inscription']
+            );
+
+            $candidat->setId((int) $data['id']);
+            $candidats[] = $candidat;
+        }
+
+        return $candidats;
+    }
+
+    public function update(Database $database): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $pdo = $database->getConnection();
+
+        $sql = 'UPDATE candidat
+                SET nom = :nom,
+                    prenom = :prenom,
+                    email = :email,
+                    telephone = :telephone,
+                    id_ville = :id_ville,
+                    cv_fichier = :cv_fichier,
+                    statut = :statut
+                WHERE id = :id';
+
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'email' => $this->email,
+            'telephone' => $this->telephone,
+            'id_ville' => $this->idVille,
+            'cv_fichier' => $this->cvFichier,
+            'statut' => $this->statut,
+            'id' => $this->id,
+        ]);
+    }
+
     public static function findById(Database $database, int $id): ?self
     {
         $pdo = $database->getConnection();
