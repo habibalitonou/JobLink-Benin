@@ -170,4 +170,52 @@ class Entreprise
         return true;
     }
 
+
+    public function update(Database $database): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $pdo = $database->getConnection();
+
+        $sql = 'UPDATE entreprise
+                SET nom = :nom,
+                    email = :email,
+                    telephone = :telephone,
+                    id_secteur = :id_secteur,
+                    id_ville = :id_ville
+                WHERE id = :id';
+
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            'nom' => $this->nom,
+            'email' => $this->email,
+            'telephone' => $this->telephone,
+            'id_secteur' => $this->idSecteur,
+            'id_ville' => $this->idVille,
+            'id' => $this->id,
+        ]);
+    }
+
+
+    public function delete(Database $database): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $pdo = $database->getConnection();
+
+        $sql = 'DELETE FROM entreprise
+                WHERE id = :id';
+
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            'id' => $this->id,
+        ]);
+    }
+
 }

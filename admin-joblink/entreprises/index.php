@@ -12,6 +12,22 @@ require_once __DIR__ . '/../../classes/Entreprise.php';
 
 $database = new Database();
 $entreprises = Entreprise::findAll($database);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = (int) ($_POST['id'] ?? 0);
+
+    if ($id > 0) {
+        $entreprise = Entreprise::findById($database, $id);
+
+        if ($entreprise !== null) {
+            $entreprise->delete($database);
+        }
+    }
+
+    header('Location: index.php');
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -35,6 +51,10 @@ $entreprises = Entreprise::findAll($database);
     <main>
         <h2>Gestion des entreprises</h2>
 
+        <p>
+            <a href="create.php">Ajouter une entreprise</a>
+        </p>
+
         <?php if (count($entreprises) === 0): ?>
             <p>Aucune entreprise enregistrée.</p>
         <?php else: ?>
@@ -47,6 +67,7 @@ $entreprises = Entreprise::findAll($database);
                         <th>Téléphone</th>
                         <th>Secteur</th>
                         <th>Ville</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,6 +79,24 @@ $entreprises = Entreprise::findAll($database);
                             <td><?= htmlspecialchars($entreprise->getTelephone() ?? '', ENT_QUOTES, 'UTF-8') ?></td>
                             <td><?= $entreprise->getIdSecteur() ?></td>
                             <td><?= $entreprise->getIdVille() ?></td>
+                            <td>
+                                <a href="edit.php?id=<?= $entreprise->getId() ?>">
+                                    Modifier
+                                </a>
+
+                                <form
+                                    method="post"
+                                    style="display: inline;"
+                                    onsubmit="return confirm('Voulez-vous vraiment supprimer cette entreprise ?');"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="<?= $entreprise->getId() ?>"
+                                    >
+                                    <button type="submit">Supprimer</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
