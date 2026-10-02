@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class Offre
 {
@@ -207,6 +207,54 @@ class Offre
         return $offres;
     }
 
+    public static function searchPublished(Database $database, string $keyword = ''): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, titre, description, salaire, date_limite, statut,
+                       id_entreprise, id_secteur, id_ville, id_type_contrat
+                FROM offre
+                WHERE statut = :statut';
+
+        if ($keyword !== '') {
+            $sql .= ' AND (titre LIKE :keyword OR description LIKE :keyword)';
+        }
+
+        $sql .= ' ORDER BY titre ASC';
+
+        $statement = $pdo->prepare($sql);
+
+        $params = [
+            'statut' => 'publiee',
+        ];
+
+        if ($keyword !== '') {
+            $params['keyword'] = '%' . $keyword . '%';
+        }
+
+        $statement->execute($params);
+
+        $offres = [];
+
+        while ($data = $statement->fetch()) {
+            $offre = new self(
+                $data['titre'],
+                $data['description'],
+                (int) $data['id_entreprise'],
+                (int) $data['id_secteur'],
+                (int) $data['id_ville'],
+                (int) $data['id_type_contrat'],
+                $data['salaire'] !== null ? (float) $data['salaire'] : null,
+                $data['date_limite'],
+                $data['statut']
+            );
+
+            $offre->setId((int) $data['id']);
+            $offres[] = $offre;
+        }
+
+        return $offres;
+    }
     public function create(Database $database): bool
     {
         $pdo = $database->getConnection();

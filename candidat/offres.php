@@ -15,7 +15,8 @@ require_once __DIR__ . '/../classes/TypeContrat.php';
 
 $database = new Database();
 
-$offres = Offre::findAll($database);
+$keyword = trim($_GET['q'] ?? '');
+$offres = Offre::searchPublished($database, $keyword);
 $entreprises = Entreprise::findAll($database);
 $villes = Ville::findAll($database);
 $typesContrat = TypeContrat::findAll($database);
@@ -57,6 +58,22 @@ foreach ($offres as $offre) {
 <p>
     <a href="dashboard.php">← Retour au tableau de bord</a>
 </p>
+
+<form method="get" action="offres.php">
+    <label for="q">Rechercher une offre :</label>
+    <input
+        type="search"
+        id="q"
+        name="q"
+        value="<?= htmlspecialchars($keyword) ?>"
+        placeholder="Titre ou mot-clé"
+    >
+    <button type="submit">Rechercher</button>
+
+    <?php if ($keyword !== ''): ?>
+        <a href="offres.php">Réinitialiser</a>
+    <?php endif; ?>
+</form>
 
 <?php if (empty($offresPubliees)): ?>
 
@@ -138,3 +155,6 @@ foreach ($offres as $offre) {
 
 </body>
 </html>
+
+
+
