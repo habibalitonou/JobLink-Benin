@@ -172,4 +172,122 @@ class Offre
 
         return $offre;
     }
+
+    public static function findAll(Database $database): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, titre, description, salaire, date_limite, statut,
+                       id_entreprise, id_secteur, id_ville, id_type_contrat
+                FROM offre
+                ORDER BY titre ASC';
+
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+
+        $offres = [];
+
+        while ($data = $statement->fetch()) {
+            $offre = new self(
+                $data['titre'],
+                $data['description'],
+                (int) $data['id_entreprise'],
+                (int) $data['id_secteur'],
+                (int) $data['id_ville'],
+                (int) $data['id_type_contrat'],
+                $data['salaire'] !== null ? (float) $data['salaire'] : null,
+                $data['date_limite'],
+                $data['statut']
+            );
+
+            $offre->setId((int) $data['id']);
+            $offres[] = $offre;
+        }
+
+        return $offres;
+    }
+
+    public function create(Database $database): bool
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'INSERT INTO offre
+                (titre, description, salaire, date_limite, statut,
+                 id_entreprise, id_secteur, id_ville, id_type_contrat)
+                VALUES
+                (:titre, :description, :salaire, :date_limite, :statut,
+                 :id_entreprise, :id_secteur, :id_ville, :id_type_contrat)';
+
+        $statement = $pdo->prepare($sql);
+
+        $statement->execute([
+            'titre' => $this->titre,
+            'description' => $this->description,
+            'salaire' => $this->salaire,
+            'date_limite' => $this->dateLimite,
+            'statut' => $this->statut,
+            'id_entreprise' => $this->idEntreprise,
+            'id_secteur' => $this->idSecteur,
+            'id_ville' => $this->idVille,
+            'id_type_contrat' => $this->idTypeContrat,
+        ]);
+
+        $this->id = (int) $pdo->lastInsertId();
+
+        return true;
+    }
+
+    public function update(Database $database): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $pdo = $database->getConnection();
+
+        $sql = 'UPDATE offre
+                SET titre = :titre,
+                    description = :description,
+                    salaire = :salaire,
+                    date_limite = :date_limite,
+                    statut = :statut,
+                    id_entreprise = :id_entreprise,
+                    id_secteur = :id_secteur,
+                    id_ville = :id_ville,
+                    id_type_contrat = :id_type_contrat
+                WHERE id = :id';
+
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            'titre' => $this->titre,
+            'description' => $this->description,
+            'salaire' => $this->salaire,
+            'date_limite' => $this->dateLimite,
+            'statut' => $this->statut,
+            'id_entreprise' => $this->idEntreprise,
+            'id_secteur' => $this->idSecteur,
+            'id_ville' => $this->idVille,
+            'id_type_contrat' => $this->idTypeContrat,
+            'id' => $this->id,
+        ]);
+    }
+
+    public function delete(Database $database): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $pdo = $database->getConnection();
+
+        $sql = 'DELETE FROM offre
+                WHERE id = :id';
+
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            'id' => $this->id,
+        ]);
+    }
 }
