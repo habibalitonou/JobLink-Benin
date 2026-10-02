@@ -172,3 +172,17 @@
 - Test fonctionnel effectué avec un fichier temporaire.
 - Résultat : 8 villes récupérées correctement depuis la base de données.
 - Le fichier temporaire de test a ensuite été supprimé.
+
+## 02/10/2026 — Création de la page d'ajout des entreprises
+
+- Création de la page `admin-joblink/entreprises/create.php`.
+- Ajout de la protection d'accès réservée à l'administrateur connecté.
+- Chargement des secteurs avec `Secteur::findAll()`.
+- Chargement des villes avec `Ville::findAll()`.
+- Création du formulaire d'ajout d'une entreprise.
+- Validation du nom, de l'adresse e-mail, du secteur et de la ville.
+- Utilisation de `Entreprise::create()` pour enregistrer l'entreprise en base de données.
+- Redirection vers la liste des entreprises après un enregistrement réussi.
+- Test fonctionnel effectué avec une entreprise temporaire.
+- Vérification de l'insertion et de la redirection vers la liste.
+- Suppression de l'entreprise temporaire après le test afin de conserver uniquement les données de référence.
