@@ -145,4 +145,29 @@ class Entreprise
 
         return $entreprise;
     }
+
+    public function create(Database $database): bool
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'INSERT INTO entreprise
+                (nom, email, telephone, id_secteur, id_ville)
+                VALUES
+                (:nom, :email, :telephone, :id_secteur, :id_ville)';
+
+        $statement = $pdo->prepare($sql);
+
+        $statement->execute([
+            'nom' => $this->nom,
+            'email' => $this->email,
+            'telephone' => $this->telephone,
+            'id_secteur' => $this->idSecteur,
+            'id_ville' => $this->idVille,
+        ]);
+
+        $this->id = (int) $pdo->lastInsertId();
+
+        return true;
+    }
+
 }

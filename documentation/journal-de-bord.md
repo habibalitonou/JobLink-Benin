@@ -149,3 +149,15 @@
 - Utilisation de `htmlspecialchars()` pour sécuriser l'affichage des données textuelles.
 - Test fonctionnel réalisé dans le navigateur avec les 5 entreprises de test.
 - Résultat : la liste des entreprises s'affiche correctement dans l'espace d'administration.
+
+## 02/10/2026 — Ajout de la méthode create() dans la classe Entreprise
+
+- Ajout de la méthode `create()` dans `classes/Entreprise.php`.
+- Utilisation d'une requête préparée PDO pour insérer une entreprise.
+- Récupération de l'identifiant auto-incrémenté avec `lastInsertId()`.
+- Affectation de l'identifiant généré à l'objet `Entreprise`.
+- Vérification syntaxique de la classe après modification.
+- Test fonctionnel réalisé avec une entreprise temporaire.
+- Résultat : insertion réussie et identifiant généré correctement récupéré.
+- L'entreprise temporaire a ensuite été supprimée de la base de données.
+- Le fichier temporaire utilisé pour le test a également été supprimé.
