@@ -30,6 +30,26 @@ class TypeContrat
         $this->libelle = $libelle;
     }
 
+    public static function findAll(Database $database): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, libelle
+                FROM type_contrat
+                ORDER BY libelle ASC';
+
+        $statement = $pdo->query($sql);
+        $typesContrat = [];
+
+        while ($data = $statement->fetch()) {
+            $typeContrat = new self($data['libelle']);
+            $typeContrat->setId((int) $data['id']);
+            $typesContrat[] = $typeContrat;
+        }
+
+        return $typesContrat;
+    }
+
     public static function findById(Database $database, int $id): ?self
     {
         $pdo = $database->getConnection();
