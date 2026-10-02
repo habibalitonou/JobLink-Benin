@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class Candidature
 {
@@ -13,7 +13,7 @@ class Candidature
         int $idCandidat,
         int $idOffre,
         string $lettreMotivation,
-        string $statut,
+        string $statut = 'en_attente',
         ?string $dateCandidature = null
     ) {
         $this->idCandidat = $idCandidat;
@@ -115,5 +115,168 @@ class Candidature
         $candidature->setId((int) $data['id']);
 
         return $candidature;
+    }
+
+    public static function findAll(Database $database): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, id_candidat, id_offre, lettre_motivation,
+                       statut, date_candidature
+                FROM candidature
+                ORDER BY date_candidature DESC, id DESC';
+
+        $statement = $pdo->query($sql);
+        $candidatures = [];
+
+        while ($data = $statement->fetch()) {
+            $candidature = new self(
+                (int) $data['id_candidat'],
+                (int) $data['id_offre'],
+                $data['lettre_motivation'],
+                $data['statut'],
+                $data['date_candidature']
+            );
+
+            $candidature->setId((int) $data['id']);
+            $candidatures[] = $candidature;
+        }
+
+        return $candidatures;
+    }
+
+    public static function findByCandidat(Database $database, int $idCandidat): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, id_candidat, id_offre, lettre_motivation,
+                       statut, date_candidature
+                FROM candidature
+                WHERE id_candidat = :id_candidat
+                ORDER BY date_candidature DESC, id DESC';
+
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id_candidat' => $idCandidat,
+        ]);
+
+        $candidatures = [];
+
+        while ($data = $statement->fetch()) {
+            $candidature = new self(
+                (int) $data['id_candidat'],
+                (int) $data['id_offre'],
+                $data['lettre_motivation'],
+                $data['statut'],
+                $data['date_candidature']
+            );
+
+            $candidature->setId((int) $data['id']);
+            $candidatures[] = $candidature;
+        }
+
+        return $candidatures;
+    }
+
+    public static function existsForCandidatAndOffre(
+        Database $database,
+        int $idCandidat,
+        int $idOffre
+    ): bool {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id
+                FROM candidature
+                WHERE id_candidat = :id_candidat
+                  AND id_offre = :id_offre
+                LIMIT 1';
+
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id_candidat' => $idCandidat,
+            'id_offre' => $idOffre,
+        ]);
+
+        return $statement->fetch() !== false;
+    }
+
+    public function create(Database $database): bool
+    {
+        $pdo = $database->getConnection();
+
+        if (self::existsForCandidatAndOffre(
+            $database,
+            $this->idCandidat,
+            $this->idOffre
+        )) {
+            return false;
+        }
+
+        $sql = 'INSERT INTO candidature (
+                    id_candidat,
+                    id_offre,
+                    lettre_motivation,
+                    statut
+                ) VALUES (
+                    :id_candidat,
+                    :id_offre,
+                    :lettre_motivation,
+                    :statut
+                )';
+
+        $statement = $pdo->prepare($sql);
+
+        $success = $statement->execute([
+            'id_candidat' => $this->idCandidat,
+            'id_offre' => $this->idOffre,
+            'lettre_motivation' => $this->lettreMotivation,
+            'statut' => $this->statut,
+        ]);
+
+        if ($success) {
+            $this->setId((int) $pdo->lastInsertId());
+        }
+
+        return $success;
+    }
+
+    public function update(Database $database): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $pdo = $database->getConnection();
+
+        $sql = 'UPDATE candidature
+                SET lettre_motivation = :lettre_motivation,
+                    statut = :statut
+                WHERE id = :id';
+
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            'lettre_motivation' => $this->lettreMotivation,
+            'statut' => $this->statut,
+            'id' => $this->id,
+        ]);
+    }
+
+    public function delete(Database $database): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $pdo = $database->getConnection();
+
+        $sql = 'DELETE FROM candidature
+                WHERE id = :id';
+
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            'id' => $this->id,
+        ]);
     }
 }

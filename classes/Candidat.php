@@ -236,4 +236,85 @@ class Candidat
 
         return $candidat;
     }
+    public static function findByEmail(Database $database, string $email): ?self
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, nom, prenom, email, mot_de_passe, telephone,
+                       id_ville, cv_fichier, statut, date_inscription
+                FROM candidat
+                WHERE email = :email
+                LIMIT 1';
+
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'email' => $email,
+        ]);
+
+        $data = $statement->fetch();
+
+        if ($data === false) {
+            return null;
+        }
+
+        $candidat = new self(
+            $data['nom'],
+            $data['prenom'],
+            $data['email'],
+            $data['mot_de_passe'],
+            $data['telephone'],
+            $data['id_ville'] !== null ? (int) $data['id_ville'] : null,
+            $data['cv_fichier'],
+            $data['statut'],
+            $data['date_inscription']
+        );
+
+        $candidat->setId((int) $data['id']);
+
+        return $candidat;
+    }
+
+    public function create(Database $database): bool
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'INSERT INTO candidat (
+                    nom,
+                    prenom,
+                    email,
+                    mot_de_passe,
+                    telephone,
+                    id_ville,
+                    cv_fichier,
+                    statut
+                ) VALUES (
+                    :nom,
+                    :prenom,
+                    :email,
+                    :mot_de_passe,
+                    :telephone,
+                    :id_ville,
+                    :cv_fichier,
+                    :statut
+                )';
+
+        $statement = $pdo->prepare($sql);
+
+        $success = $statement->execute([
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'email' => $this->email,
+            'mot_de_passe' => $this->motDePasse,
+            'telephone' => $this->telephone,
+            'id_ville' => $this->idVille,
+            'cv_fichier' => $this->cvFichier,
+            'statut' => $this->statut,
+        ]);
+
+        if ($success) {
+            $this->setId((int) $pdo->lastInsertId());
+        }
+
+        return $success;
+    }
 }
