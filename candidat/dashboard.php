@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 session_start();
 
@@ -47,7 +47,7 @@ if ($candidat === null) {
 
 <nav>
     <ul>
-        <li><a href="profile.php">Mon profil</a></li>
+        <li><a href="profile.php">Mon profil</a></li>`r`n        <li><a href="cv.php">Mon CV</a></li>`r`n        <li><a href="cv.php">Mon CV</a></li>
         <li><a href="offres.php">Rechercher des offres</a></li>
         <li><a href="candidatures.php">Mes candidatures</a></li>
         <li><a href="logout.php">Se déconnecter</a></li>
