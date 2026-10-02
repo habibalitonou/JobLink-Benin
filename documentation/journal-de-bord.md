@@ -161,3 +161,14 @@
 - Résultat : insertion réussie et identifiant généré correctement récupéré.
 - L'entreprise temporaire a ensuite été supprimée de la base de données.
 - Le fichier temporaire utilisé pour le test a également été supprimé.
+
+## 02/10/2026 — Ajout de la méthode findAll() dans la classe Ville
+
+- Ajout de la méthode statique `findAll()` dans `classes/Ville.php`.
+- Utilisation de PDO et d'une requête préparée pour récupérer les villes.
+- Tri des villes par libellé dans l'ordre alphabétique.
+- Transformation des résultats SQL en objets `Ville`.
+- Vérification de la syntaxe PHP effectuée avec `php -l classes/Ville.php`.
+- Test fonctionnel effectué avec un fichier temporaire.
+- Résultat : 8 villes récupérées correctement depuis la base de données.
+- Le fichier temporaire de test a ensuite été supprimé.

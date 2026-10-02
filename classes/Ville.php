@@ -58,4 +58,31 @@ class Ville
 
         return $ville;
     }
+
+    public static function findAll(Database $database): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, libelle
+                FROM ville
+                ORDER BY libelle ASC';
+
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+
+        $villes = [];
+
+        while ($data = $statement->fetch()) {
+            $ville = new self(
+                $data['libelle']
+            );
+
+            $ville->setId((int) $data['id']);
+
+            $villes[] = $ville;
+        }
+
+        return $villes;
+    }
+
 }

@@ -58,4 +58,31 @@ class Secteur
 
         return $secteur;
     }
+
+    public static function findAll(Database $database): array
+    {
+        $pdo = $database->getConnection();
+
+        $sql = 'SELECT id, libelle
+                FROM secteur
+                ORDER BY libelle ASC';
+
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+
+        $secteurs = [];
+
+        while ($data = $statement->fetch()) {
+            $secteur = new self(
+                $data['libelle']
+            );
+
+            $secteur->setId((int) $data['id']);
+
+            $secteurs[] = $secteur;
+        }
+
+        return $secteurs;
+    }
+
 }
